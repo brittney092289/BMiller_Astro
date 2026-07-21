@@ -1,0 +1,104 @@
+---
+interface Props {
+    title: string;
+    summary: string;
+    href: string;
+    category: string;
+    status: string;
+    tags: string[];
+}
+
+const {
+    title,
+    summary,
+    href,
+    category,
+    status,
+    tags,
+} = Astro.props;
+---
+
+<a class="project-card" href={href}>
+    <h2>{title}</h2>
+
+    <p>{summary}</p>
+
+    <div class="project-meta">
+        <span>{category}</span>
+        <span>&bull;</span>
+        <span>{status}</span>
+    </div>
+
+    <ul class="project-tags">
+        {tags.map(tag => (
+            <li>{tag}</li>
+        ))}
+    </ul>
+
+    <span class="project-link">
+        View Project →
+    </span>
+</a>
+
+<style>
+    .project-card {
+    display: block;
+
+    padding: 2rem;
+
+    border: 1px solid var(--border-color);
+    border-radius: .75rem;
+
+    text-decoration: none;
+    color: inherit;
+
+    transition:
+        transform .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-2px);
+
+    box-shadow: 0 8px 20px rgba(0,0,0,.08);
+}
+
+.project-card h2 {
+    margin-bottom: .75rem;
+}
+
+.project-meta {
+    display: flex;
+    gap: .5rem;
+
+    margin: 1rem 0;
+
+    font-size: .9rem;
+    color: var(--text-muted);
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0;
+}
+
+.project-tags li {
+    padding: .25rem .75rem;
+
+    border-radius: 999px;
+
+    background: var(--surface-2);
+
+    font-size: .85rem;
+}
+
+.project-link {
+    font-weight: 600;
+}
+</style>

@@ -1,0 +1,29 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+
+import { getCollection } from "astro:content";
+import ProjectCard from "../../components/ProjectCard.astro";
+const projects = await getCollection("projects");
+---
+
+<MainLayout>
+
+<section class="section section-alt">
+    <div class="container">
+        <h1>Projects</h1>
+        <div class="projects-grid">
+            {projects.map(project => (
+                <ProjectCard
+                    title={project.data.title}
+                    summary={project.data.summary}
+                    category={project.data.category}
+                    status={project.data.status}
+                    tags={project.data.tags}
+                    href={`/projects/${project.id}/`}
+                />
+            ))}
+        </div>
+    </div>
+</section>
+
+</MainLayout>

@@ -1,17 +1,111 @@
 ---
-
+import MainLayout from "../layouts/MainLayout.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Brittney Miller</title>
-	</head>
-	<body>
-		<h1>Brittney Miller</h1>
-	</body>
-</html>
+<MainLayout>
+
+<section class="hero">
+	<div class="hero-image">
+	<div class="hero-overlay"></div>
+	<div class="hero-content container">
+		<p class="eyebrow"> Undergraduate Student in Astronomical &amp; Planetary Science </p>
+		<h1> Brittney <em>Miller</em></h1>
+		<p class="hero-description"> I study Astronomical &amp; Planetary Science with an Astrophysics concentration at Arizona State University. After six years of amateur astronomy and astrophotography, I am applying observational and technical skills toward undergraduate research in planetary science and astrophysics. </p>
+		<div class="hero-actions">
+			<a href="assets/Brittney_Miller_CV.pdf" class="button"> View CV </a>
+			<a href="#research" class="text-link"> Research Interests &rarr; </a>
+		</div>
+	</div>
+	</div>
+</section>
+
+</MainLayout>
+
+<style>
+	.hero {
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.hero-image {
+    position: absolute;
+    inset: 0;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: right center;
+}
+
+.hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        rgba(250, 249, 246, 0.95),
+        rgba(250, 249, 246, 0.55),
+        rgba(250, 249, 246, 0.15)
+    );
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.eyebrow {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.8rem;
+}
+
+.hero-description {
+    max-width: 600px;
+    font-size: 1.15rem;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.button {
+    background: var(--text);
+    color: white;
+    padding: 1rem 2rem;
+    transition: var(--transition);
+}
+
+.button:hover {
+    background: var(--accent);
+}
+
+.text-link {
+    border-bottom: 1px solid var(--text);
+}
+@media (max-width: 900px) {
+    .hero {
+        min-height: 100vh;
+    }
+
+    .hero-overlay {
+        background: rgba(196, 196, 196, 0.5);
+    }
+
+   
+
+    p, .hero-description {
+      font-size: 1rem;
+    }
+
+    .hero-description {
+      color: var(--text)
+    }
+}
+</style>

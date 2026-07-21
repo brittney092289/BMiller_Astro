@@ -1,0 +1,28 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+import { getCollection } from "astro:content";
+import ObsCard from "../components/ObsCard.astro";
+
+const observations = await getCollection("observations");
+---
+
+<MainLayout>
+
+<h1>Observations</h1>
+
+<p>Total: {observations.length}</p>
+
+{
+  observations.map((observation) => (
+    <ObsCard observation={observation} />
+  ))
+}
+
+</MainLayout>
+
+<style>
+.grid {
+  display: grid;
+  gap: 2rem;
+}
+</style>
