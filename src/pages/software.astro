@@ -3,9 +3,85 @@ import MainLayout from "../layouts/MainLayout.astro";
 ---
 
 <MainLayout>
+    <section class="section section-alt">
+        <div class="container">
+            <h1>Software</h1>
 
-<h1>Software</h1>
+            <p>
+                My background in software engineering informs how I approach astronomy, scientific computing, and technical problem-solving. I am particularly interested in developing tools that support astronomical observations, data analysis, visualization, automation, and reproducible scientific workflows.
+            </p>
 
-<p>...</p>
+            <p>
+                This section will document software developed for astronomy, scientific computing, and related technical projects. Entries may include standalone applications, data-processing tools, observational utilities, automation scripts, and reusable software components.
+            </p>
 
+            <section class="software-section">
+                <h2>Areas of Interest</h2>
+
+                <div class="software-grid">
+                    <article class="software-area">
+                        <h3>Scientific Computing</h3>
+                        <p>
+                            Developing computational tools for scientific analysis, numerical workflows, and research-oriented applications.
+                        </p>
+                    </article>
+
+                    <article class="software-area">
+                        <h3>Data Analysis</h3>
+                        <p>
+                            Processing and interpreting astronomical data using structured, repeatable, and testable workflows.
+                        </p>
+                    </article>
+
+                    <article class="software-area">
+                        <h3>Visualization</h3>
+                        <p>
+                            Creating clear visual representations of astronomical observations, measurements, and scientific results.
+                        </p>
+                    </article>
+
+                    <article class="software-area">
+                        <h3>Automation</h3>
+                        <p>
+                            Building utilities that reduce repetitive work in observing, image processing, data organization, and analysis.
+                        </p>
+                    </article>
+
+                    <article class="software-area">
+                        <h3>Web Tools for Astronomy</h3>
+                        <p>
+                            Applying web technologies to astronomical documentation, observing workflows, data access, and public-facing scientific resources.
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="software-archive">
+                <h2>Software Archive</h2>
+
+                <p>
+                    Software projects will be added here as they are developed.
+                </p>
+            </section>
+        </div>
+    </section>
 </MainLayout>
+
+<style>
+    .software-section,
+    .software-archive {
+        margin-top: 3rem;
+    }
+
+    .software-grid {
+        display: grid;
+        gap: 2rem;
+        margin-top: 1.5rem;
+    }
+
+    @media (min-width: 800px) {
+        .software-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>

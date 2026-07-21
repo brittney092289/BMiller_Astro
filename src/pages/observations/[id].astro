@@ -1,0 +1,79 @@
+---
+import { getCollection, render } from "astro:content";
+import MainLayout from "../../layouts/MainLayout.astro";
+
+export async function getStaticPaths() {
+    const observations = await getCollection("observations");
+
+    return observations.map((observation) => ({
+        params: {
+            id: observation.id,
+        },
+        props: {
+            observation,
+        },
+    }));
+}
+
+const { observation } = Astro.props;
+const { Content } = await render(observation);
+---
+
+<MainLayout>
+    <section class="section section-alt">
+        <article class="container observation">
+            <header class="observation-header">
+                <p class="observation-type">
+                    {observation.data.type}
+                </p>
+
+                <h1>{observation.data.title}</h1>
+
+                <p class="observation-date">
+                    {observation.data.date}
+                </p>
+
+                <p class="observation-summary">
+                    {observation.data.summary}
+                </p>
+            </header>
+
+            <div class="observation-body">
+                <Content />
+            </div>
+        </article>
+    </section>
+</MainLayout>
+
+<style>
+    .observation-header {
+        margin-bottom: 3rem;
+    }
+
+    .observation-type,
+    .observation-date {
+        color: var(--text-muted);
+    }
+
+    .observation-type {
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+    }
+
+    .observation-date {
+        margin-top: 0.75rem;
+    }
+
+    .observation-summary {
+        max-width: 70ch;
+        margin-top: 1.5rem;
+        font-size: 1.1rem;
+    }
+
+    .observation-body {
+        max-width: 75ch;
+    }
+</style>

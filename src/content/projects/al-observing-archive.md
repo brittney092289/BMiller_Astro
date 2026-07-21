@@ -12,9 +12,9 @@ tags:
   - CSS
   - HTML
 featured: true
-github:
+github: null
 website: "https://astro.brittneymiller.space/"
-cover: "/images/projects/BM-Astronomy-Journal.png"
+cover: "../../images/projects/BM-Astronomy-Journal.png"
 ---
 
 # Overview

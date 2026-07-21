@@ -1,0 +1,67 @@
+---
+const {
+    title,
+    date,
+    type,
+    summary,
+    href,
+} = Astro.props;
+---
+
+<a class="observation-card" href={href}>
+    <div class="observation-card-content">
+        <div class="observation-meta">
+            <span>{type}</span>
+            <span aria-hidden="true">&bull;</span>
+            <span>{date}</span>
+        </div>
+
+        <h3>{title}</h3>
+
+        <p>{summary}</p>
+
+        <span class="observation-card-link">
+            View Observation &rarr;
+        </span>
+    </div>
+</a>
+
+<style>
+    .observation-card {
+        display: block;
+        padding: 2rem;
+        border: 1px solid var(--border-color);
+        border-radius: .75rem;
+        color: inherit;
+        background-color: #f1f1f1;
+        text-decoration: none;
+        transition:
+            transform .2s ease,
+            box-shadow .2s ease;
+    }
+
+    .observation-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, .08);
+    }
+
+    .observation-meta {
+        display: flex;
+        gap: .5rem;
+
+        margin-bottom: .75rem;
+
+        font-size: .9rem;
+        color: var(--text-muted);
+    }
+
+    .observation-card h3 {
+        margin-bottom: .75rem;
+    }
+
+    .observation-card-link {
+        display: inline-block;
+        margin-top: 1rem;
+        font-weight: 600;
+    }
+</style>

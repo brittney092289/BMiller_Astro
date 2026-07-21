@@ -1,0 +1,96 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import ObservationCard from "../../components/ObservationCard.astro";
+import { getCollection } from "astro:content";
+
+const observations = await getCollection("observations");
+---
+
+<MainLayout>
+    <section class="section section-alt">
+        <div class="container">
+            <h1>Observations</h1>
+
+            <p>
+                I have been involved in observational astronomy for more than six years, with experience in visual observing and astronomical imaging across solar, lunar, planetary, and deep-sky targets. My observing work has involved a variety of telescope systems, astronomical cameras, filters, and observational techniques.
+            </p>
+
+            <p>
+                This section serves as an evolving archive of my observational work, including selected observations, imaging sessions, Astronomical League observing programs, and future observational projects. Individual entries will document targets, equipment, observing conditions, methods, images, and notes associated with each observation.
+            </p>
+
+            <section class="observing-section">
+                <h2>Observing Areas</h2>
+
+                <div class="observing-grid">
+                    <article class="observing-area">
+                        <h3>Solar Observing</h3>
+                        <p>
+                            White-light, hydrogen-alpha, and calcium K observations and imaging of sunspots, prominences, active regions, and chromospheric features.
+                        </p>
+                    </article>
+
+                    <article class="observing-area">
+                        <h3>Lunar Observing</h3>
+                        <p>
+                            Visual and photographic observations of lunar geology, impact structures, volcanic features, illumination, and surface detail.
+                        </p>
+                    </article>
+
+                    <article class="observing-area">
+                        <h3>Planetary Observing</h3>
+                        <p>
+                            Visual observations and high-resolution imaging of planets using different filters, cameras, and image-processing techniques.
+                        </p>
+                    </article>
+
+                    <article class="observing-area">
+                        <h3>Deep-Sky Observing</h3>
+                        <p>
+                            Visual and photographic observations of galaxies, nebulae, star clusters, planetary nebulae, and other deep-sky objects.
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="observation-archive">
+              <h2>Observation Archive</h2>
+
+              <div class="observation-grid">
+                  {observations.map((observation) => (
+                      <ObservationCard
+                          title={observation.data.title}
+                          date={observation.data.date}
+                          type={observation.data.type}
+                          summary={observation.data.summary}
+                          href={`/observations/${observation.id}/`}
+                      />
+                  ))}
+              </div>
+          </section>
+        </div>
+    </section>
+</MainLayout>
+
+<style>
+  .observing-section,
+  .observation-archive {
+      margin-top: 3rem;
+  }
+
+  .observation-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-top: 2rem;
+  }
+
+  .observing-area h3 {
+      margin-bottom: 0.5rem;
+  }
+
+  @media (min-width: 800px) {
+    .observation-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>

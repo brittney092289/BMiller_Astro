@@ -3,9 +3,84 @@ import MainLayout from "../layouts/MainLayout.astro";
 ---
 
 <MainLayout>
+    <section class="section section-alt">
+        <div class="container">
+            <header class="page-header">
+                <h1>Writing</h1>
 
-<h1>Writing</h1>
+                <p>
+                    I write about astronomy, observational practice, scientific computing, and the process of developing technical and scientific skills.
+                </p>
 
-<p>...</p>
+                <p>
+                    This section will include selected articles, technical notes, observing reports, research summaries, and other written work related to astronomy and science.
+                </p>
+            </header>
 
+            <section class="writing-section">
+                <h2>Writing Areas</h2>
+
+                <div class="writing-grid">
+                    <article class="writing-area">
+                        <h3>Astronomy</h3>
+                        <p>
+                            Articles and explanations covering astronomical objects, phenomena, and scientific ideas.
+                        </p>
+                    </article>
+
+                    <article class="writing-area">
+                        <h3>Observational Practice</h3>
+                        <p>
+                            Writing about observing methods, equipment, imaging techniques, and lessons from practical astronomy.
+                        </p>
+                    </article>
+
+                    <article class="writing-area">
+                        <h3>Scientific Computing</h3>
+                        <p>
+                            Technical notes on programming, data analysis, visualization, automation, and computational workflows.
+                        </p>
+                    </article>
+
+                    <article class="writing-area">
+                        <h3>Research and Learning</h3>
+                        <p>
+                            Summaries, reflections, and explanations developed while studying astronomy and preparing for research.
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <section class="writing-archive">
+                <h2>Writing Archive</h2>
+
+                <p>
+                    Selected writing will be added here as the archive is developed.
+                </p>
+            </section>
+        </div>
+    </section>
 </MainLayout>
+
+<style>
+    .page-header {
+        max-width: 75ch;
+    }
+
+    .writing-section,
+    .writing-archive {
+        margin-top: 3rem;
+    }
+
+    .writing-grid {
+        display: grid;
+        gap: 2rem;
+        margin-top: 1.5rem;
+    }
+
+    @media (min-width: 800px) {
+        .writing-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>
