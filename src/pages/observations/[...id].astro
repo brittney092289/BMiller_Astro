@@ -1,0 +1,326 @@
+---
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import PageLayout from "../../layouts/PageLayout.astro";
+import { observationCategories } from "../../data/observationCategories.js";
+
+export async function getStaticPaths() {
+  const observations = await getCollection("observations");
+
+  return observations.map((observation) => ({
+    params: { id: observation.id },
+    props: { observation },
+  }));
+}
+
+const { observation } = Astro.props;
+const { Content } = await render(observation);
+
+const {
+  title,
+  date,
+  category,
+  object,
+  summary,
+  cover,
+  location,
+  coordinates,
+  time,
+  skyConditions,
+  instrument,
+  mount,
+  eyepiece,
+  camera,
+  filters,
+  captureDetails,
+  software,
+  objectives,
+  impressions,
+} = observation.data;
+
+const categoryData = observationCategories.find(
+  (item) => item.slug === category,
+);
+
+const formattedDate = date.toLocaleDateString("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+});
+---
+
+<PageLayout
+  title={title}
+  heading={title}
+  description={summary}
+>
+  <article class="observation">
+    <header class="observation-header">
+      <div class="post-meta">
+        <a href={`/observations/${category}/`}>
+          {categoryData?.label ?? category}
+        </a>
+
+        <time datetime={date.toISOString()}>{formattedDate}</time>
+      </div>
+
+      <p class="object">{object}</p>
+    </header>
+
+    <figure class="hero-image">
+      <Image
+        src={cover}
+        alt={`Observation of ${object}`}
+        widths={[700, 1100, 1500]}
+        sizes="(max-width: 760px) 100vw, 64rem"
+      />
+      <figcaption>{title}</figcaption>
+    </figure>
+
+    <section class="observation-data">
+      <h2>
+        <span aria-hidden="true">▼</span>
+        Observation Data
+      </h2>
+
+      <dl>
+        {location && (
+          <>
+            <dt>Location</dt>
+            <dd>
+              {location}
+              {coordinates && ` (${coordinates})`}
+            </dd>
+          </>
+        )}
+
+        <dt>Date</dt>
+        <dd>{formattedDate}{time && `, ${time}`}</dd>
+
+        {skyConditions && (
+          <>
+            <dt>Sky conditions</dt>
+            <dd>{skyConditions}</dd>
+          </>
+        )}
+
+        {instrument && (
+          <>
+            <dt>Instrument</dt>
+            <dd>{instrument}</dd>
+          </>
+        )}
+
+        {mount && (
+          <>
+            <dt>Mount</dt>
+            <dd>{mount}</dd>
+          </>
+        )}
+
+        {eyepiece && (
+          <>
+            <dt>Eyepiece</dt>
+            <dd>{eyepiece}</dd>
+          </>
+        )}
+
+        {camera && (
+          <>
+            <dt>Imaging equipment</dt>
+            <dd>{camera}</dd>
+          </>
+        )}
+
+        {filters && (
+          <>
+            <dt>Filters</dt>
+            <dd>{filters}</dd>
+          </>
+        )}
+
+        {captureDetails && (
+          <>
+            <dt>Capture details</dt>
+            <dd>{captureDetails}</dd>
+          </>
+        )}
+
+        {software && software.length > 0 && (
+          <>
+            <dt>Software</dt>
+            <dd>{software.join(", ")}</dd>
+          </>
+        )}
+      </dl>
+    </section>
+
+    {objectives && (
+      <details class="observation-section">
+        <summary>
+          <span aria-hidden="true">▶</span>
+          Project Objectives
+        </summary>
+
+        <p>{objectives}</p>
+      </details>
+    )}
+
+    {impressions && (
+      <details class="observation-section">
+        <summary>
+          <span aria-hidden="true">▶</span>
+          Impressions
+        </summary>
+
+        <p>{impressions}</p>
+      </details>
+    )}
+
+    <div class="post-content">
+      <Content />
+    </div>
+  </article>
+</PageLayout>
+
+<style>
+  .observation {
+    max-width: 58rem;
+  }
+
+  .observation-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .post-meta a {
+    color: inherit;
+  }
+
+  .object {
+    margin: 1rem 0 0;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 1.1rem;
+  }
+
+  .hero-image {
+    margin: 0 0 4rem;
+  }
+
+  .hero-image :global(img) {
+    width: 100%;
+    max-height: 48rem;
+    object-fit: contain;
+    background: #000000;
+  }
+
+  figcaption {
+    margin-top: 0.75rem;
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.88rem;
+  }
+
+  .observation-data {
+    margin-top: 4rem;
+  }
+
+  .observation-data h2,
+  .observation-section summary {
+    color: #64d86c;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    font-weight: 400;
+    letter-spacing: 0.12em;
+  }
+
+  .observation-data h2 {
+    display: flex;
+    gap: 0.65rem;
+    margin-bottom: 2rem;
+  }
+
+  dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 1rem 0.45rem;
+    margin: 0;
+  }
+
+  dt {
+    color: #ffffff;
+    font-weight: 700;
+  }
+
+  dt::after {
+    content: ":";
+  }
+
+  dd {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.76);
+  }
+
+  .observation-section {
+    margin-top: 3.5rem;
+  }
+
+  summary {
+    display: flex;
+    gap: 0.65rem;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .observation-section[open] summary span {
+    transform: rotate(90deg);
+  }
+
+  summary span {
+    transition: transform 180ms ease;
+  }
+
+  .observation-section p {
+    margin: 1.5rem 0 0 2rem;
+  }
+
+  .post-content {
+    margin-top: 4rem;
+  }
+
+  .post-content :global(p) {
+    margin: 0 0 1.5rem;
+  }
+
+  .post-content :global(h2) {
+    margin-top: 4rem;
+  }
+
+  @media (max-width: 600px) {
+    dl {
+      grid-template-columns: 1fr;
+      gap: 0.25rem;
+    }
+
+    dd {
+      margin-bottom: 1.1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    summary span {
+      transition: none;
+    }
+  }
+</style>

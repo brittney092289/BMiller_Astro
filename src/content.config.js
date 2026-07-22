@@ -6,16 +6,50 @@ import { z } from "astro/zod";
 
 const observations = defineCollection({
   loader: glob({
-    pattern: "**/*.md",
+    pattern: "**/*.{md,mdx}",
     base: "./src/content/observations",
   }),
 
-  schema: z.object({
-    title: z.string(),
-    date: z.string(),
-    type: z.string(),
-    summary: z.string(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      date: z.coerce.date(),
+
+      category: z.enum([
+        "solar",
+        "lunar",
+        "planetary",
+        "galaxy",
+        "nebula",
+        "star-cluster",
+        "double-star",
+        "comet",
+        "other",
+      ]),
+
+      object: z.string(),
+      summary: z.string(),
+      cover: image(),
+
+      location: z.string().optional(),
+      coordinates: z.string().optional(),
+      time: z.string().optional(),
+      skyConditions: z.string().optional(),
+
+      instrument: z.string().optional(),
+      mount: z.string().optional(),
+      eyepiece: z.string().optional(),
+      camera: z.string().optional(),
+      filters: z.string().optional(),
+
+      captureDetails: z.string().optional(),
+      software: z.array(z.string()).optional(),
+
+      objectives: z.string().optional(),
+      impressions: z.string().optional(),
+
+      featured: z.boolean().optional(),
+    }),
 });
 
 const projects = defineCollection({

@@ -1,67 +1,140 @@
 ---
+import { Image } from "astro:assets";
+
+interface Props {
+  title: string;
+  date: Date;
+  category: string;
+  object: string;
+  href: string;
+  cover: ImageMetadata;
+  summary: string;
+}
+
 const {
-    title,
-    date,
-    type,
-    summary,
-    href,
+  title,
+  date,
+  category,
+  object,
+  href,
+  cover,
+  summary,
 } = Astro.props;
+
+const formattedDate = date.toLocaleDateString("en-US", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+});
 ---
 
-<a class="observation-card" href={href}>
-    <div class="observation-card-content">
-        <div class="observation-meta">
-            <span>{type}</span>
-            <span aria-hidden="true">&bull;</span>
-            <span>{date}</span>
-        </div>
-
-        <h3>{title}</h3>
-
-        <p>{summary}</p>
-
-        <span class="observation-card-link">
-            View Observation &rarr;
-        </span>
+<article class="observation-card">
+  <a href={href}>
+    <div class="image-wrapper">
+      <Image
+        src={cover}
+        alt={`Observation of ${object}`}
+        widths={[500, 800, 1200]}
+        sizes="(max-width: 760px) 100vw, 50vw"
+        loading="lazy"
+      />
     </div>
-</a>
+
+    <div class="card-content">
+      <div class="meta">
+        <span>{category}</span>
+        <time datetime={date.toISOString()}>{formattedDate}</time>
+      </div>
+
+      <h2>{title}</h2>
+      <p class="object">{object}</p>
+      <p class="summary">{summary}</p>
+    </div>
+  </a>
+</article>
 
 <style>
-    .observation-card {
-        display: block;
-        padding: 2rem;
-        border: 1px solid var(--border-color);
-        border-radius: .75rem;
-        color: inherit;
-        background-color: #f1f1f1;
-        text-decoration: none;
-        transition:
-            transform .2s ease,
-            box-shadow .2s ease;
+  .observation-card {
+    min-width: 0;
+  }
+
+  a {
+    display: block;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.025);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .image-wrapper {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    background: #000000;
+  }
+
+  .image-wrapper :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 400ms ease;
+  }
+
+  .card-content {
+    padding: 1.5rem;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+  }
+
+  .object {
+    margin: 0.65rem 0 0;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .summary {
+    margin: 1.25rem 0 0;
+    color: rgba(255, 255, 255, 0.62);
+    line-height: 1.6;
+  }
+
+  a:hover,
+  a:focus-visible {
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-0.2rem);
+  }
+
+  a:hover .image-wrapper :global(img),
+  a:focus-visible .image-wrapper :global(img) {
+    transform: scale(1.035);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    a,
+    .image-wrapper :global(img) {
+      transition: none;
     }
-
-    .observation-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, .08);
-    }
-
-    .observation-meta {
-        display: flex;
-        gap: .5rem;
-
-        margin-bottom: .75rem;
-
-        font-size: .9rem;
-        color: var(--text-muted);
-    }
-
-    .observation-card h3 {
-        margin-bottom: .75rem;
-    }
-
-    .observation-card-link {
-        display: inline-block;
-        margin-top: 1rem;
-        font-weight: 600;
-    }
+  }
 </style>

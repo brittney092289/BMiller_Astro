@@ -1,44 +1,144 @@
+---
+import SocialLinks from "./SocialLinks.astro";
+---
+
 <section class="center-hero">
-  <h1>Brittney Miller</h1>
+  <div class="hero-content">
+    <p class="eyebrow">
+      Astronomical &amp; Planetary Science Student
+    </p>
 
-  <p>Astronomy student and front-end developer</p>
+    <h1>
+      <span class="first-name">Brittney</span>
+      <span class="last-name">Miller</span>
+    </h1>
 
+    <p class="description">
+      I study Astronomical &amp; Planetary Science with an Astrophysics
+      concentration at Arizona State University. After six years of amateur
+      astronomy and astrophotography, I am applying observational and technical
+      skills toward undergraduate research in planetary science and
+      astrophysics.
+    </p>
+
+    <div class="hero-socials">
+      <SocialLinks />
+    </div>
+  </div>
 </section>
 
 <style>
   .center-hero {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    inset: 0;
     z-index: 1;
-    width: min(80%, 38rem);
-    text-align: center;
-    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    width: min(42rem, 45vw);
+    margin-left: clamp(5rem, 8vw, 9rem);
+    pointer-events: auto;
+  }
+
+  .eyebrow {
+    margin: 0 0 1.5rem;
+    color: #24466f;
+    font-size: clamp(0.72rem, 0.95vw, 0.95rem);
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    line-height: 1.5;
+    text-transform: uppercase;
   }
 
   h1 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 0.12em;
     margin: 0;
-    font-size: clamp(2rem, 5vw, 4.5rem);
-    font-weight: 500;
-    line-height: 1;
-    letter-spacing: -0.04em;
+    color: #ffffff;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(4.75rem, 7.5vw, 8rem);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.065em;
   }
 
-  p {
-    margin: 1rem 0 0;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  .last-name {
+    font-style: italic;
+  }
+
+  .description {
+    max-width: 38rem;
+    margin: 2.25rem 0 0;
+    color: rgba(255, 255, 255, 0.74);
+    font-size: clamp(1rem, 1.35vw, 1.25rem);
+    font-weight: 500;
+    line-height: 1.65;
+  }
+
+  .hero-socials {
+    margin-top: 2.25rem;
+  }
+
+  .hero-socials :global(.social-links ul) {
+    justify-content: flex-start;
+  }
+
+  .hero-socials :global(.social-links a) {
+    border-color: rgba(255, 255, 255, 0.28);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .hero-socials :global(.social-links a:hover),
+  .hero-socials :global(.social-links a:focus-visible) {
+    background: rgba(15, 15, 15, 0.3);
+    border-color: rgba(255, 255, 255, 0.8);
+    color: #ffffff;
+  }
+
+  @media (max-width: 900px) {
+    .hero-content {
+      width: min(36rem, 52vw);
+      margin-left: 4rem;
+    }
   }
 
   @media (max-width: 700px) {
     .center-hero {
-      position: static;
+      position: relative;
+      inset: auto;
+      display: block;
+    }
+
+    .hero-content {
       width: auto;
-      padding: 4rem 1.5rem 2rem;
-      text-align: left;
-      transform: none;
+      margin: 0;
+      padding: 5rem 1.5rem 2rem;
+    }
+
+    /* .eyebrow {
+      color: rgba(255, 255, 255, 0.72);
+    } */
+
+    h1 {
+      display: block;
+      font-size: clamp(4rem, 18vw, 6rem);
+    }
+
+    .first-name,
+    .last-name {
+      display: block;
+    }
+
+    .description {
+      font-size: 1rem;
+    }
+
+    .hero-socials {
+      margin-top: 2rem;
     }
   }
 </style>

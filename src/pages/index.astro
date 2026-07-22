@@ -2,19 +2,23 @@
 import Layout from "../layouts/Layout.astro";
 import CenterHero from "../components/CenterHero.astro";
 import CornerNav from "../components/CornerNav.astro";
-import SocialLinks from "../components/SocialLinks.astro";
+import cometImage from "../images/C_2025_A6_Lemmon_Mansfield_B4_102425_4.png";
 ---
 
-<Layout title="Brittney Miller">
-  <main class="home">
-    <CenterHero />
+<Layout
+  title="Brittney Miller"
+  description="Astronomical and Planetary Science student, amateur astronomer, astrophotographer, and front-end developer."
+>
+  <main
+  class="home"
+  style={`--home-image: url(${cometImage.src});`}
+>
+  <div class="home-background" aria-hidden="true"></div>
+  <div class="home-overlay" aria-hidden="true"></div>
 
-    <CornerNav />
-
-    <div class="homepage-socials">
-      <SocialLinks />
-    </div>
-  </main>
+  <CenterHero />
+  <CornerNav />
+</main>
 </Layout>
 
 <style>
@@ -22,17 +26,37 @@ import SocialLinks from "../components/SocialLinks.astro";
     position: relative;
     min-height: 100svh;
     overflow: hidden;
-    background: #050505;
-    color: #ffffff;
+    isolation: isolate;
+    background: var(--bg);
   }
 
-  .homepage-socials {
+  .home-background,
+  .home-overlay {
     position: absolute;
-    top: calc(50% + 6rem);
-    left: 50%;
-    z-index: 3;
-    transform: translateX(-50%);
+    inset: 0;
   }
+
+  
+
+  .home-background {
+  background-image: var(--home-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+  .home-overlay {
+    z-index: -1;
+    background:
+        linear-gradient(
+        90deg,
+        rgba(244, 243, 240, 0.94) 0%,
+        rgba(244, 243, 240, 0.86) 24%,
+        rgba(244, 243, 240, 0.58) 42%,
+        rgba(244, 243, 240, 0.14) 58%,
+        rgba(0, 0, 0, 0.03) 100%
+        );
+    }
 
   @media (max-width: 700px) {
     .home {
@@ -40,15 +64,23 @@ import SocialLinks from "../components/SocialLinks.astro";
       min-height: 100svh;
       overflow: visible;
       flex-direction: column;
+      color: var(--text);
     }
 
-    .homepage-socials {
-      position: static;
-      display: flex;
-      justify-content: center;
-      margin: auto 0 2rem;
-      padding: 2rem 1.5rem 0;
-      transform: none;
+    .home-background {
+      position: fixed;
+      background-position: 64% center;
+    }
+
+    .home-overlay {
+      position: fixed;
+      background:
+        linear-gradient(
+          180deg,
+          rgba(5, 5, 5, 0.56) 0%,
+          rgba(5, 5, 5, 0.82) 42%,
+          rgba(5, 5, 5, 0.96) 100%
+        );
     }
   }
 </style>

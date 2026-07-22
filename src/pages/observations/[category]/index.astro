@@ -1,0 +1,87 @@
+---
+import { getCollection } from "astro:content";
+import PageLayout from "../../../layouts/PageLayout.astro";
+import ObservationCard from "../../../components/ObservationCard.astro";
+import { observationCategories } from "../../../data/observationCategories.js";
+
+// Generate one page for every category
+export function getStaticPaths() {
+  return observationCategories.map((category) => ({
+    params: {
+      category: category.slug,
+    },
+    props: {
+      categoryData: category,
+    },
+  }));
+}
+
+// Get the current category
+const { categoryData } = Astro.props;
+
+// Get all observations in this category
+const observations = (await getCollection(
+  "observations",
+  ({ data }) => data.category === categoryData.slug,
+)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<PageLayout
+  title={categoryData.label}
+  heading={`${categoryData.label} Observations`}
+  description={categoryData.description}
+>
+  <p class="intro">{categoryData.description}</p>
+
+  <p class="count">
+    {observations.length}
+    {observations.length === 1 ? " observation" : " observations"}
+  </p>
+
+  <div class="observation-grid">
+    {
+      observations.map((observation) => (
+        <ObservationCard
+          title={observation.data.title}
+          date={observation.data.date}
+          category={categoryData.label}
+          object={observation.data.object}
+          summary={observation.data.summary}
+          cover={observation.data.cover}
+          href={`/observations/${observation.id}/`}
+        />
+      ))
+    }
+  </div>
+</PageLayout>
+
+<style>
+  .intro {
+    max-width: 42rem;
+    margin-bottom: 1rem;
+    font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+    line-height: 1.55;
+  }
+
+  .count {
+    margin-bottom: 3rem;
+    color: rgba(255, 255, 255, 0.48);
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .observation-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem;
+  }
+
+  @media (max-width: 760px) {
+    .observation-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
