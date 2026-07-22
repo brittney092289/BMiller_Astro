@@ -1,0 +1,52 @@
+[
+  {
+    "id": "site-settings",
+    "name": "Brittney Miller",
+    "tagline": "Astronomy Student & Front-End Developer",
+    "description": "Personal website of Brittney Miller, astronomy student, front-end developer, and astronomy outreach volunteer.",
+    "navigation": [
+      {
+        "label": "Home",
+        "href": "/"
+      },
+      {
+        "label": "About",
+        "href": "/about/"
+      },
+      {
+        "label": "Projects",
+        "href": "/projects/"
+      },
+      {
+        "label": "Observations",
+        "href": "/observations/"
+      },
+      {
+        "label": "Outreach",
+        "href": "/outreach/"
+      }
+    ],
+    "socialLinks": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/YOUR-USERNAME",
+        "icon": "github"
+      },
+      {
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/YOUR-USERNAME/",
+        "icon": "linkedin"
+      },
+      {
+        "label": "Instagram",
+        "href": "https://www.instagram.com/YOUR-USERNAME/",
+        "icon": "instagram"
+      },
+      {
+        "label": "Email",
+        "href": "mailto:YOUR-EMAIL@example.com",
+        "icon": "email"
+      }
+    ]
+  }
+]

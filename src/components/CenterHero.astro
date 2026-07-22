@@ -1,0 +1,44 @@
+<section class="center-hero">
+  <h1>Brittney Miller</h1>
+
+  <p>Astronomy student and front-end developer</p>
+
+</section>
+
+<style>
+  .center-hero {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    width: min(80%, 38rem);
+    text-align: center;
+    transform: translate(-50%, -50%);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 5vw, 4.5rem);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  p {
+    margin: 1rem 0 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 700px) {
+    .center-hero {
+      position: static;
+      width: auto;
+      padding: 4rem 1.5rem 2rem;
+      text-align: left;
+      transform: none;
+    }
+  }
+</style>

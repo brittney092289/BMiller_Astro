@@ -1,0 +1,133 @@
+---
+const links = [
+  {
+    label: "About",
+    href: "/about/",
+    position: "top-left",
+  },
+  {
+    label: "Observations",
+    href: "/observations/",
+    position: "top-right",
+  },
+  {
+    label: "Projects",
+    href: "/projects/",
+    position: "bottom-left",
+  },
+  {
+    label: "Outreach",
+    href: "/outreach/",
+    position: "bottom-right",
+  },
+];
+---
+
+<nav class="corner-nav" aria-label="Primary navigation">
+  {
+    links.map(({ label, href, position }) => (
+      <a class={`corner-link ${position}`} href={href}>
+        {label}
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .corner-nav {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .corner-link {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: clamp(1.25rem, 4vw, 3rem);
+    color: transparent;
+    font-size: clamp(2rem, 5vw, 5rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
+    transition:
+      color 180ms ease,
+      -webkit-text-stroke-color 180ms ease,
+      transform 180ms ease;
+    pointer-events: auto;
+  }
+
+  .corner-link:hover,
+  .corner-link:focus-visible {
+    color: #ffffff;
+    -webkit-text-stroke-color: #ffffff;
+  }
+
+  .corner-link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 0.5rem;
+  }
+
+  .top-left {
+    top: 0;
+    left: 0;
+    transform-origin: top left;
+  }
+
+  .top-right {
+    top: 0;
+    right: 0;
+    transform-origin: top right;
+  }
+
+  .bottom-left {
+    bottom: 0;
+    left: 0;
+    transform-origin: bottom left;
+  }
+
+  .bottom-right {
+    right: 0;
+    bottom: 0;
+    transform-origin: bottom right;
+  }
+
+  @media (hover: hover) {
+    .top-left:hover,
+    .bottom-left:hover {
+      transform: translateX(0.2rem);
+    }
+
+    .top-right:hover,
+    .bottom-right:hover {
+      transform: translateX(-0.2rem);
+    }
+  }
+
+  @media (max-width: 700px) {
+    .corner-nav {
+      position: static;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+      padding: 1.5rem;
+    }
+
+    .corner-link {
+      position: static;
+      padding: 0.25rem 0;
+      font-size: clamp(3rem, 15vw, 5.5rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .corner-link {
+      transition: none;
+    }
+  }
+</style>

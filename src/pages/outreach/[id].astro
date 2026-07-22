@@ -1,5 +1,5 @@
 ---
-import MainLayout from "../../layouts/MainLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 
 import {
     getCollection,
@@ -30,7 +30,7 @@ const { Content } = await render(talk);
 
 ---
 
-<MainLayout>
+<PageLayout title="Outreach" description="Astronomy outreach activities by Brittney Miller.">
 
 <section class="section section-alt">
 
@@ -54,4 +54,4 @@ const { Content } = await render(talk);
 
 </section>
 
-</MainLayout>
+</PageLayout>

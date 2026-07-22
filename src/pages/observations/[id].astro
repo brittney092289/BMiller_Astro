@@ -1,6 +1,6 @@
 ---
 import { getCollection, render } from "astro:content";
-import MainLayout from "../../layouts/MainLayout.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 
 export async function getStaticPaths() {
     const observations = await getCollection("observations");
@@ -19,7 +19,7 @@ const { observation } = Astro.props;
 const { Content } = await render(observation);
 ---
 
-<MainLayout>
+<PageLayout title="Observations" description="Astronomy observations and observing notes by Brittney Miller.">
     <section class="section section-alt">
         <article class="container observation">
             <header class="observation-header">
@@ -43,7 +43,7 @@ const { Content } = await render(observation);
             </div>
         </article>
     </section>
-</MainLayout>
+</PageLayout>
 
 <style>
     .observation-header {
