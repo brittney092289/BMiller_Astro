@@ -1,0 +1,116 @@
+---
+import MainLayout from "../../layouts/MainLayout.astro";
+import TalkCard from "../../components/TalkCard.astro";
+
+import { getCollection } from "astro:content";
+
+const talks = await getCollection("talks");
+---
+
+<MainLayout>
+    <section class="section section-alt">
+        <div class="container">
+
+            <h1>Outreach</h1>
+
+            <p>
+                Outreach is an important part of my involvement in astronomy. I
+                regularly participate in public observing events, educational
+                programs, astronomy club activities, and community outreach. These
+                experiences provide opportunities to share astronomy with audiences
+                of all ages while continuing to develop my communication and
+                teaching skills.
+            </p>
+
+            <section class="presentations">
+
+                <h2>Presentations</h2>
+
+                <div class="talk-grid">
+
+                    {talks.map((talk) => (
+                        <TalkCard
+                            title={talk.data.title}
+                            date={talk.data.date}
+                            venue={talk.data.venue}
+                            summary={talk.data.summary}
+                            href={`/outreach/${talk.id}/`}
+                        />
+                    ))}
+
+                </div>
+
+            </section>
+
+            <section class="activities">
+
+                <h2>Outreach Activities</h2>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Date</th>
+                            <th>Event</th>
+                            <th>Venue</th>
+                            <th>Description</th>
+                            <th>Hours</th>
+                            <th>Attendance</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td colspan="6">
+                                Outreach activities will be added here.
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        </div>
+    </section>
+</MainLayout>
+
+<style>
+
+.presentations,
+.activities{
+    margin-top:3rem;
+}
+
+.talk-grid{
+    display:grid;
+    gap:1.5rem;
+    margin-top:1.5rem;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:1.5rem;
+}
+
+th,
+td{
+    padding:.75rem;
+    text-align:left;
+    border-bottom:1px solid var(--border-color);
+}
+
+@media(min-width:800px){
+
+.talk-grid{
+    grid-template-columns:repeat(2,1fr);
+}
+
+}
+
+</style>

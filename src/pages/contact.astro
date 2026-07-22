@@ -1,0 +1,164 @@
+---
+import MainLayout from "../layouts/MainLayout.astro";
+
+const contactLinks = [
+    {
+        label: "Email",
+        value: "your-email@example.com",
+        href: "mailto:your-email@example.com",
+    },
+    {
+        label: "LinkedIn",
+        value: "Connect on LinkedIn",
+        href: "https://www.linkedin.com/in/brittneyemiller/",
+    },
+    {
+        label: "GitHub",
+        value: "View my projects on GitHub",
+        href: "https://github.com/brittney092289",
+    },
+];
+---
+
+<MainLayout>
+    <section class="section section-alt">
+        <div class="container contact-container">
+            <header class="contact-header">
+                <h1>Contact</h1>
+
+                <p>
+                    I welcome opportunities to connect with students,
+                    astronomers, educators, outreach organizations, and others
+                    interested in astronomy, planetary science, scientific
+                    computing, or public science communication.
+                </p>
+
+                <p>
+                    The best way to reach me is by email. You can also find my
+                    professional and technical work through the profiles below.
+                </p>
+            </header>
+
+            <section class="contact-section" aria-labelledby="contact-links">
+                <h2 id="contact-links">Get in Touch</h2>
+
+                <div class="contact-grid">
+                    {
+                        contactLinks.map((link) => (
+                            <article class="contact-card">
+                                <h3>{link.label}</h3>
+
+                                <a
+                                    href={link.href}
+                                    target={
+                                        link.href.startsWith("http")
+                                            ? "_blank"
+                                            : undefined
+                                    }
+                                    rel={
+                                        link.href.startsWith("http")
+                                            ? "noopener noreferrer"
+                                            : undefined
+                                    }
+                                >
+                                    {link.value}
+                                </a>
+                            </article>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <section class="contact-section" aria-labelledby="interests">
+                <h2 id="interests">Areas of Interest</h2>
+
+                <p>
+                    I am especially interested in conversations and
+                    opportunities related to observational astronomy,
+                    planetary science, image analysis, astronomical
+                    instrumentation, scientific software, and astronomy
+                    outreach.
+                </p>
+            </section>
+
+            <section class="contact-section" aria-labelledby="cv">
+                <h2 id="cv">R&eacute;sum&eacute; and CV</h2>
+
+                <p>
+                    My professional r&eacute;sum&eacute; summarizes my background 
+                    in software engineering, leadership, and web development, along 
+                    with my transition into astronomy through education, outreach, 
+                    and volunteer service.
+
+                </p>
+
+                <!-- <p>
+                    An academic CV will be added as I gain research experience,
+                    presentations, publications, and other academic
+                    accomplishments.
+                </p> -->
+
+                <!--
+                Add this link when your r&eacute;sum&eacute; or CV PDF is ready:
+
+                <a
+                    class="button"
+                    href="/documents/your-name-resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    View R&eacute;sum&eacute;
+                </a>
+                -->
+            </section>
+
+            
+        </div>
+    </section>
+</MainLayout>
+
+<style>
+    .contact-container {
+        max-width: 960px;
+    }
+
+    .contact-header {
+        max-width: 72ch;
+    }
+
+    .contact-header p,
+    .contact-section > p {
+        max-width: 72ch;
+    }
+
+    .contact-section {
+        margin-top: 3.5rem;
+    }
+
+    .contact-grid {
+        display: grid;
+        gap: 1.25rem;
+        margin-top: 1.5rem;
+    }
+
+    .contact-card {
+        padding: 1.5rem;
+        border: 1px solid var(--border-color, rgba(127, 127, 127, 0.3));
+        border-radius: 0.5rem;
+    }
+
+    .contact-card h3 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .contact-card a {
+        overflow-wrap: anywhere;
+    }
+
+    @media (min-width: 700px) {
+        .contact-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+    }
+</style>

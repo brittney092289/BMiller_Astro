@@ -3,9 +3,97 @@ import MainLayout from "../layouts/MainLayout.astro";
 ---
 
 <MainLayout>
+    <section class="section section-alt">
+        <div class="container">
+            <header class="cv-header">
+                <h1>Curriculum Vitae</h1>
 
-<h1>Curriculum Vitae</h1>
+                <p>
+                    My curriculum vitae summarizes my education, research interests,
+                    software engineering background, technical skills, observational
+                    astronomy experience, outreach activities, and professional work.
+                </p>
 
-<p>...</p>
+                <a
+                    class="cv-download"
+                    href="/documents/cv.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    View or Download CV
+                </a>
+            </header>
 
+            <section class="cv-summary">
+                <h2>Summary</h2>
+
+                <div class="cv-grid">
+                    <article>
+                        <h3>Education</h3>
+                        <p>
+                            Academic preparation in astronomy, physics, mathematics,
+                            scientific computing, and related technical areas.
+                        </p>
+                    </article>
+
+                    <article>
+                        <h3>Research Interests</h3>
+                        <p>
+                            Planetary science, lunar science, solar observations,
+                            astronomical instrumentation, and scientific computing.
+                        </p>
+                    </article>
+
+                    <article>
+                        <h3>Technical Background</h3>
+                        <p>
+                            Professional software engineering experience with an
+                            emphasis on web development, data systems, automation,
+                            and maintainable technical workflows.
+                        </p>
+                    </article>
+
+                    <article>
+                        <h3>Astronomy and Outreach</h3>
+                        <p>
+                            Experience in observational astronomy, imaging, public
+                            outreach, presentations, and community astronomy events.
+                        </p>
+                    </article>
+                </div>
+            </section>
+        </div>
+    </section>
 </MainLayout>
+
+<style>
+    .cv-header {
+        max-width: 75ch;
+    }
+
+    .cv-download {
+        display: inline-block;
+        margin-top: 1.5rem;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--border-color);
+        border-radius: 0.5rem;
+        font-weight: 600;
+        text-decoration: none;
+    }
+
+    .cv-summary {
+        margin-top: 3rem;
+    }
+
+    .cv-grid {
+        display: grid;
+        gap: 2rem;
+        margin-top: 1.5rem;
+    }
+
+    @media (min-width: 800px) {
+        .cv-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+</style>

@@ -1,0 +1,91 @@
+---
+const {
+    title,
+    date,
+    venue,
+    summary,
+    href,
+} = Astro.props;
+---
+
+<a class="talk-card" href={href}>
+
+    <div class="talk-content">
+
+        <div class="talk-meta">
+
+            <span>{date}</span>
+
+            <span>&bull;</span>
+
+            <span>{venue}</span>
+
+        </div>
+
+        <h3>{title}</h3>
+
+        <p>{summary}</p>
+
+        <span class="talk-link">
+            View Presentation →
+        </span>
+
+    </div>
+
+</a>
+
+<style>
+
+.talk-card{
+
+    display:block;
+
+    padding:2rem;
+
+    border:1px solid var(--border-color);
+
+    border-radius:.75rem;
+
+    text-decoration:none;
+
+    color:inherit;
+
+    transition:
+        transform .2s,
+        box-shadow .2s;
+
+}
+
+.talk-card:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:0 4px 8px rgba(0,0,0,.08);
+
+}
+
+.talk-meta{
+
+    display:flex;
+
+    gap:.5rem;
+
+    color:var(--text-muted);
+
+    font-size:.9rem;
+
+    margin-bottom:.75rem;
+
+}
+
+.talk-link{
+
+    display:inline-block;
+
+    margin-top:1rem;
+
+    font-weight:600;
+
+}
+
+</style>
