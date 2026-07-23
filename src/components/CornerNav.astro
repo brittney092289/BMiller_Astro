@@ -44,39 +44,52 @@ const links = [
   .corner-nav {
     position: absolute;
     inset: 0;
-    z-index: 2;
+    z-index: 10;
     pointer-events: none;
   }
 
   .corner-link {
     position: absolute;
+    z-index: 1;
     display: inline-flex;
     align-items: center;
     min-height: 44px;
     padding: clamp(1.25rem, 3vw, 2.5rem);
-    font-size: clamp(1rem, 1.5vw, 1.35rem);
+    font-size: clamp(3rem, 1.5vw, 1.35rem);
     font-weight: 600;
     letter-spacing: 0.14em;
     line-height: 1;
     text-decoration: none;
     text-transform: uppercase;
+    opacity: 0.82;
+    pointer-events: auto;
+    color: rgba(255,255,255,0.3);
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgba(255,255,255,0.6);
     transition:
       opacity 180ms ease,
       transform 180ms ease;
-    pointer-events: auto;
-  }
-
-  .corner-link.light {
-    color: rgba(17, 17, 17, 0.72);
   }
 
   .corner-link.dark {
-    color: rgba(255, 255, 255, 0.82);
+    color: rgba(255, 255, 255, 0.86);
   }
 
   .corner-link:hover,
   .corner-link:focus-visible {
     opacity: 1;
+    color: rgba(255,255,255,0.6);
+    -webkit-text-fill-color: rgba(255,255,255,0.6);
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: rgba(255,255,255,0.6);
+    text-shadow: 0px 0px 20px #2270c834;
+    transition: .3s ease-in-out;
+  }
+
+  .corner-link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -0.75rem;
   }
 
   .top-left {
@@ -87,6 +100,7 @@ const links = [
   .top-right {
     top: 0;
     right: 0;
+    text-align: right;
   }
 
   .bottom-left {
@@ -97,16 +111,21 @@ const links = [
   .bottom-right {
     right: 0;
     bottom: 0;
+    text-align: right;
   }
 
   @media (hover: hover) {
     .top-left:hover,
-    .bottom-left:hover {
+    .top-left:focus-visible,
+    .bottom-left:hover,
+    .bottom-left:focus-visible {
       transform: translateX(0.3rem);
     }
 
     .top-right:hover,
-    .bottom-right:hover {
+    .top-right:focus-visible,
+    .bottom-right:hover,
+    .bottom-right:focus-visible {
       transform: translateX(-0.3rem);
     }
   }
@@ -116,34 +135,43 @@ const links = [
       position: relative;
       inset: auto;
       z-index: 2;
+
       display: flex;
-      order: 2;
       flex-direction: column;
       align-items: flex-start;
+      order: 2;
+
       gap: 0.15rem;
       padding: 1rem 1.5rem 2rem;
+
+      pointer-events: auto;
     }
 
-    .corner-link {
+    .corner-link,
+    .corner-link.light,
+    .corner-link.dark {
       position: static;
+
+      min-height: auto;
       padding: 0.1rem 0;
+
       color: transparent;
       font-size: clamp(3.5rem, 15vw, 6rem);
       font-weight: 600;
       letter-spacing: -0.06em;
       line-height: 0.98;
       text-transform: none;
-      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.82);
-    }
 
-    .corner-link.light,
-    .corner-link.dark {
-      color: transparent;
+      opacity: 1;
+
+      -webkit-text-stroke: 1px rgba(255, 255, 255, 0.82);
     }
 
     .corner-link:hover,
     .corner-link:focus-visible {
       color: #ffffff;
+      outline: none;
+      transform: none;
       -webkit-text-stroke-color: #ffffff;
     }
   }

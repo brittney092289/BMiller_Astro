@@ -1,55 +1,175 @@
 ---
 import { getCollection, render } from "astro:content";
 import { Image } from "astro:assets";
+
 import PageLayout from "../../layouts/PageLayout.astro";
 
 export async function getStaticPaths() {
-    const projects = await getCollection("projects");
+  const projects = await getCollection("projects");
 
-    return projects.map((project) => ({
-        params: { id: project.id },
-        props: { project },
-    }));
+  return projects.map((project) => ({
+    params: {
+      id: project.id,
+    },
+    props: {
+      project,
+    },
+  }));
 }
 
 const { project } = Astro.props;
 const { Content } = await render(project);
 ---
 
-<PageLayout title="Projects" description="Astronomy and software projects by Brittney Miller.">
-    <section class="section section-alt">
-        <article class="container">
-            <h1>{project.data.title}</h1>
+<PageLayout
+  title={project.data.title}
+  description={project.data.summary}
+>
+  <section class="section section-alt">
+    <article class="container project">
+      <header class="project-header">
+        <p class="project-meta">
+          <span>{project.data.category}</span>
+          <span aria-hidden="true">•</span>
+          <span>{project.data.status}</span>
+        </p>
 
-            <div class="project-meta">
-                <span>{project.data.category}</span>
-                <span aria-hidden="true">&bull;</span>
-                <span>{project.data.status}</span>
-            </div>
+        <h1>{project.data.title}</h1>
 
-            <Image
-                class="project-cover"
-                src={project.data.cover}
-                alt={`Screenshot of ${project.data.title}`}
-                widths={[640, 960, 1280]}
-                sizes="(max-width: 900px) 100vw, 900px"
-            />
+        <p class="project-summary">
+          {project.data.summary}
+        </p>
+      </header>
 
-            {project.data.website && (
-                <p>
-                    <a
-                        href={project.data.website}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Visit the live website &neArr;
-                    </a>
-                </p>
-            )}
+      <Image
+        class="project-cover"
+        src={project.data.cover}
+        alt={`Cover image for ${project.data.title}`}
+        widths={[640, 960, 1280]}
+        sizes="(max-width: 900px) 100vw, 900px"
+      />
 
-            <div class="project-body">
-                <Content />
-            </div>
-        </article>
-    </section>
+      {(project.data.website || project.data.github) && (
+        <div class="project-links">
+          {project.data.website && (
+            <a
+              href={project.data.website}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Visit live website ↗
+            </a>
+          )}
+
+          {project.data.github && (
+            <a
+              href={project.data.github}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View on GitHub ↗
+            </a>
+          )}
+        </div>
+      )}
+
+      <div class="project-body">
+        <Content />
+      </div>
+    </article>
+  </section>
 </PageLayout>
+
+<style>
+  .project {
+    max-width: 72rem;
+  }
+
+  .project-header {
+    max-width: 52rem;
+    margin-bottom: 2rem;
+  }
+
+  .project-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+
+    margin: 0 0 1rem;
+
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0;
+
+    font-size: clamp(2.75rem, 7vw, 6rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.055em;
+  }
+
+  .project-summary {
+    max-width: 46rem;
+    margin: 1.5rem 0 0;
+
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .project-cover {
+    display: block;
+
+    width: 100%;
+    max-height: 42rem;
+
+    border-radius: 1rem;
+
+    object-fit: cover;
+  }
+
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    margin: 1.5rem 0 0;
+  }
+
+  .project-links a {
+    color: inherit;
+    font-weight: 600;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+  }
+
+  .project-body {
+    margin-top: 4rem;
+  }
+
+  .project-body :global(h2) {
+    margin-top: 3rem;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 400;
+    letter-spacing: -0.035em;
+  }
+
+  .project-body :global(h3) {
+    margin-top: 2rem;
+  }
+
+  .project-body :global(p),
+  .project-body :global(li) {
+    line-height: 1.75;
+  }
+
+  .project-body :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+  }
+</style>

@@ -9,7 +9,8 @@ tags:
   - WordPress
   - PHP
   - JavaScript
-  - HTML/CSS
+  - CSS
+  - HTML
 featured: true
 github: null
 website: "https://astro.brittneymiller.space/"
