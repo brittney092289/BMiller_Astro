@@ -75,18 +75,41 @@ const projects = defineCollection({
 
 const talks = defineCollection({
   loader: glob({
-    pattern: "**/*.md",
+    pattern: "**/*.{md,mdx}",
     base: "./src/content/talks",
   }),
 
   schema: z.object({
     title: z.string(),
-    date: z.string(),
+    date: z.coerce.date(),
     venue: z.string(),
-    location: z.string(),
-    audience: z.string(),
     summary: z.string(),
+
+    location: z.string().optional(),
+    audience: z.string().optional(),
+    event: z.string().optional(),
+
+    duration: z.number().positive().optional(),
+    attendance: z.number().int().nonnegative().optional(),
+
     slides: z.string().optional(),
+    recording: z.string().url().optional(),
+  }),
+});
+
+const outreachActivities = defineCollection({
+  loader: glob({
+    pattern: "**/*.{md,mdx}",
+    base: "./src/content/outreachActivities",
+  }),
+
+  schema: z.object({
+    date: z.coerce.date(),
+    event: z.string(),
+    venue: z.string(),
+    description: z.string(),
+    hours: z.number().nonnegative(),
+    attendance: z.number().int().nonnegative().optional(),
   }),
 });
 
@@ -125,4 +148,5 @@ export const collections = {
   projects,
   talks,
   site,
+  outreachActivities,
 };

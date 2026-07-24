@@ -1,43 +1,107 @@
 ---
 const {
-    title,
-    date,
-    venue,
-    summary,
-    href,
+  title,
+  date,
+  venue,
+  summary,
+  href,
+  location,
+  audience,
+  duration,
+  attendance,
+  recording,
 } = Astro.props;
+
+const formattedDate = date.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+function formatDuration(minutes = 0) {
+  if (minutes < 60) {
+    return `${minutes} min`;
+  }
+
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+
+  if (remainingMinutes === 0) {
+    return `${hours} ${hours === 1 ? "hour" : "hours"}`;
+  }
+
+  return `${hours} hr ${remainingMinutes} min`;
+}
+
+const hasPresentationDetails =
+  audience ||
+  duration !== undefined ||
+  attendance !== undefined;
 ---
 
 <a class="talk-card" href={href}>
+  <div class="talk-content">
+    <div class="talk-meta">
+      <time datetime={date.toISOString()}>
+        {formattedDate}
+      </time>
 
-    <div class="talk-content">
+      <span aria-hidden="true">•</span>
 
-        <div class="talk-meta">
-
-            <span>{date}</span>
-
-            <span>&bull;</span>
-
-            <span>{venue}</span>
-
-        </div>
-
-        <h3>{title}</h3>
-
-        <p>{summary}</p>
-
-        <span class="talk-link">
-            View Presentation →
-        </span>
-
+      <span>{venue}</span>
     </div>
 
+    <h3>{title}</h3>
+
+    {
+      location && (
+        <p class="talk-location">{location}</p>
+      )
+    }
+
+    <p class="talk-summary">{summary}</p>
+
+    {
+      hasPresentationDetails && (
+        <div class="talk-details">
+          {audience && <span>{audience}</span>}
+
+          {
+            duration !== undefined && (
+              <span>{formatDuration(duration)}</span>
+            )
+          }
+
+          {
+            attendance !== undefined && (
+              <span>
+                {attendance.toLocaleString("en-US")}{" "}
+                {attendance === 1 ? "attendee" : "attendees"}
+              </span>
+            )
+          }
+        </div>
+      )
+    }
+
+    <div class="talk-footer">
+      <span class="talk-link">
+        View Presentation →
+      </span>
+
+      {
+        recording && (
+          <span class="recording-label">
+            Recording available
+          </span>
+        )
+      }
+    </div>
+  </div>
 </a>
 
 <style>
-
-.talk-card{
-    padding:2rem;
+  .talk-card {
     display: block;
     height: 100%;
     overflow: hidden;
@@ -50,112 +114,112 @@ const {
       transform 250ms ease,
       border-color 250ms ease,
       box-shadow 250ms ease;
+  }
 
-}
-
-.talk-card:hover{
-
+  .talk-card:hover,
+  .talk-card:focus-visible {
     transform: scale(1.01);
-    box-shadow:0 4px 8px rgba(0,0,0,.08);
-    transition:
-      transform 250ms ease,
-      border-color 250ms ease,
-      box-shadow 250ms ease;
-
-}
-
-.talk-meta{
-
-    display:flex;
-
-    gap:.5rem;
-
-    color:var(--text-muted);
-
-    font-size:.9rem;
-
-    margin-bottom:.75rem;
-
-}
-
-.talk-link{
-
-    display:inline-block;
-
-    margin-top:1rem;
-
-    font-weight:600;
-
-}
-
-</style>
-
-<style>
-
-
-  .image-wrapper {
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    background: #000000;
+    border-color: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
   }
 
-  .image-wrapper :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 400ms ease;
+  .talk-card:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
   }
 
-  .card-content {
-    padding: 1.5rem;
+  .talk-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 2rem;
   }
 
-  .meta {
+  .talk-meta {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    gap: 0.35rem 0.5rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.9rem;
   }
 
-  h2 {
+  h3 {
     margin: 0;
-    color: #ffffff;
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
-    line-height: 1.1;
-    letter-spacing: -0.035em;
   }
 
-  .object {
-    margin: 0.65rem 0 0;
-    color: rgba(255, 255, 255, 0.65);
+  .talk-location {
+    margin: 0.4rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
   }
 
-  .summary {
-    margin: 1.25rem 0 0;
-    color: rgba(255, 255, 255, 0.62);
+  .talk-summary {
+    margin: 1rem 0 0;
     line-height: 1.6;
   }
 
-  a:hover,
-  a:focus-visible {
-    border-color: rgba(255, 255, 255, 0.4);
-    /* transform: translateY(-0.2rem); */
+  .talk-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 1rem;
+    margin-top: 1rem;
+    color: var(--text-muted);
+    font-size: 0.88rem;
   }
 
-  a:hover .image-wrapper :global(img),
-  a:focus-visible .image-wrapper :global(img) {
-    transform: scale(1.035);
+  .talk-details span {
+    position: relative;
+  }
+
+  .talk-details span:not(:last-child)::after {
+    content: "•";
+    position: absolute;
+    margin-left: 0.45rem;
+  }
+
+  .talk-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 1.25rem;
+  }
+
+  .talk-link {
+    font-weight: 600;
+  }
+
+  .recording-label {
+    color: var(--text-muted);
+    font-size: 0.82rem;
+  }
+
+  @media (max-width: 500px) {
+    .talk-content {
+      padding: 1.5rem;
+    }
+
+    .talk-details {
+      display: grid;
+      gap: 0.35rem;
+    }
+
+    .talk-details span::after {
+      display: none;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    a,
-    .image-wrapper :global(img) {
+    .talk-card {
       transition: none;
+    }
+
+    .talk-card:hover,
+    .talk-card:focus-visible {
+      transform: none;
     }
   }
 </style>

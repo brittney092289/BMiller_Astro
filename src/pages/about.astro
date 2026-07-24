@@ -1,12 +1,21 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
 import openScienceBadge from "../images/badges/nasa-open-science-101.png";
+import profilePhoto from "../images/Brittney_Miller.png";
 ---
 
 <PageLayout title="About" description="About Brittney Miller, an astronomy student and front-end developer.">
     <section id="background" class="section section-alt">
         <div class="container">
             <header class="about-header">
+                <img
+                    src={profilePhoto.src}
+                    width={profilePhoto.width}
+                    height={profilePhoto.height}
+                    alt="Brittney"
+                    class="bm_img"
+                />
+                <div class="about-intro">
                 <p>
                     I am an undergraduate student in Astronomical and Planetary
                     Science with a concentration in Astrophysics at Arizona State
@@ -20,6 +29,8 @@ import openScienceBadge from "../images/badges/nasa-open-science-101.png";
                     engineering to astronomy through academic study, observational
                     work, outreach, and technical projects.
                 </p>
+                </div>
+                
             </header>
 
             <section class="about-section">
@@ -186,9 +197,6 @@ import openScienceBadge from "../images/badges/nasa-open-science-101.png";
 </PageLayout>
 
 <style>
-    .about-header {
-        max-width: 75ch;
-    }
 
     .about-section {
         margin-top: 3.5rem;
@@ -197,6 +205,59 @@ import openScienceBadge from "../images/badges/nasa-open-science-101.png";
     .about-section > p {
         max-width: 75ch;
     }
+
+    .bm_img {
+        width: 200px;
+        max-width: 100%;
+        height: 200px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+        display: block;
+    }
+
+    .about-header {
+    display: grid;
+    grid-template-columns: 220px 2fr;
+    gap: 2rem;
+    align-items: start;
+    margin-bottom: 3rem;
+    }
+
+.about-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.about-intro p {
+  margin: 0;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .about-header {
+    grid-template-columns: 220px 1fr;
+    gap: 2rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 700px) {
+  .about-header {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .bm-img {
+    max-width: 320px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  .about-intro {
+    text-align: left;
+  }
+}
 
     .about-grid {
         display: grid;

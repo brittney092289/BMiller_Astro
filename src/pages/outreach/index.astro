@@ -1,113 +1,508 @@
 ---
 import PageLayout from "../../layouts/PageLayout.astro";
 import TalkCard from "../../components/TalkCard.astro";
-
 import { getCollection } from "astro:content";
 
-const talks = await getCollection("talks");
+const talks = (await getCollection("talks")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+const activities = (await getCollection("outreachActivities")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+
+function formatDate(date = new Date()) {
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+function formatHours(hours = 0) {
+  return Number.isInteger(hours)
+    ? hours.toString()
+    : hours.toFixed(1);
+}
+
+const totalHours = activities.reduce(
+  (total, activity) => total + activity.data.hours,
+  0
+);
+
+const totalAttendance = activities.reduce(
+  (total, activity) => total + (activity.data.attendance ?? 0),
+  0
+);
+
+const years = [
+  ...new Set(
+    activities.map((activity) =>
+      activity.data.date.getFullYear()
+    )
+  ),
+];
+
+const newestYear = years[0] ?? null;
 ---
 
-<PageLayout title="Outreach" description="Astronomy outreach activities by Brittney Miller.">
-    <section class="section section-alt">
-        <div class="container">
-            <p>
-                Outreach is an important part of my involvement in astronomy. I
-                regularly participate in public observing events, educational
-                programs, astronomy club activities, and community outreach. These
-                experiences provide opportunities to share astronomy with audiences
-                of all ages while continuing to develop my communication and
-                teaching skills.
+<PageLayout
+  title="Outreach"
+  description="Astronomy outreach activities by Brittney Miller."
+>
+  <section class="section section-alt">
+    <div class="container">
+      <p>
+        Outreach is an important part of my involvement in astronomy. I
+        regularly participate in public observing events, educational
+        programs, astronomy club activities, and community outreach. These
+        experiences provide opportunities to share astronomy with audiences
+        of all ages while continuing to develop my communication and teaching
+        skills.
+      </p>
+
+      <section class="presentations">
+        <h2>Presentations</h2>
+
+        {
+          talks.length > 0 ? (
+            <div class="talk-grid">
+              {talks.map((talk) => (
+                <TalkCard
+                  title={talk.data.title}
+                  date={talk.data.date}
+                  venue={talk.data.venue}
+                  location={talk.data.location}
+                  audience={talk.data.audience}
+                  duration={talk.data.duration}
+                  attendance={talk.data.attendance}
+                  recording={talk.data.recording}
+                  summary={talk.data.summary}
+                  href={`/outreach/${talk.id}/`}
+                />
+              ))}
+            </div>
+          ) : (
+            <p class="empty-state">
+              No presentations have been added yet.
             </p>
+          )
+        }
+      </section>
 
-            <section class="presentations">
+      <section class="activities">
+        <div class="section-heading">
+          <h2>Outreach Activities</h2>
 
-                <h2>Presentations</h2>
+          <p class="activity-totals">
+            <span>
+              {activities.length}
+              {" "}
+              {activities.length === 1 ? "activity" : "activities"}
+            </span>
 
-                <div class="talk-grid">
+            <span class="separator" aria-hidden="true">·</span>
 
-                    {talks.map((talk) => (
-                        <TalkCard
-                            title={talk.data.title}
-                            date={talk.data.date}
-                            venue={talk.data.venue}
-                            summary={talk.data.summary}
-                            href={`/outreach/${talk.id}/`}
-                        />
-                    ))}
+            <span>
+              {formatHours(totalHours)}
+              {" volunteer "}
+              {totalHours === 1 ? "hour" : "hours"}
+            </span>
 
-                </div>
+            {
+              totalAttendance > 0 && (
+                <>
+                  <span class="separator" aria-hidden="true">·</span>
 
-            </section>
-
-            <section class="activities">
-
-                <h2>Outreach Activities</h2>
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-                            <th>Date</th>
-                            <th>Event</th>
-                            <th>Venue</th>
-                            <th>Description</th>
-                            <th>Hours</th>
-                            <th>Attendance</th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody>
-
-                        <tr>
-                            <td colspan="6">
-                                Outreach activities will be added here.
-                            </td>
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </section>
-
+                  <span>
+                    {totalAttendance.toLocaleString("en-US")}
+                    {" attendees reached"}
+                  </span>
+                </>
+              )
+            }
+          </p>
         </div>
-    </section>
+
+        {
+          years.length > 0 ? (
+            <div class="year-list">
+              {years.map((year) => {
+                const yearActivities = activities.filter(
+                  (activity) =>
+                    activity.data.date.getFullYear() === year
+                );
+
+                const yearHours = yearActivities.reduce(
+                  (total, activity) =>
+                    total + activity.data.hours,
+                  0
+                );
+
+                const yearAttendance = yearActivities.reduce(
+                  (total, activity) =>
+                    total + (activity.data.attendance ?? 0),
+                  0
+                );
+
+                return (
+                  <details
+                    class="year-group"
+                    open={year === newestYear}
+                  >
+                    <summary class="year-summary">
+                      <span class="year-heading">
+                        <span class="year">{year}</span>
+
+                        <span class="year-count">
+                          {yearActivities.length}
+                          {" "}
+                          {yearActivities.length === 1
+                            ? "activity"
+                            : "activities"}
+                        </span>
+                      </span>
+
+                      <span
+                        class="year-icon"
+                        aria-hidden="true"
+                      ></span>
+                    </summary>
+
+                    <div class="year-content">
+                      <p class="year-totals">
+                        <span>
+                          {formatHours(yearHours)}
+                          {" volunteer "}
+                          {yearHours === 1 ? "hour" : "hours"}
+                        </span>
+
+                        {
+                          yearAttendance > 0 && (
+                            <>
+                              <span
+                                class="separator"
+                                aria-hidden="true"
+                              >
+                                ·
+                              </span>
+
+                              <span>
+                                {yearAttendance.toLocaleString(
+                                  "en-US"
+                                )}
+                                {" attendees"}
+                              </span>
+                            </>
+                          )
+                        }
+                      </p>
+
+                      <div class="activity-list">
+                        {yearActivities.map((activity) => (
+                          <article class="activity-item">
+                            <div class="activity-header">
+                              <div>
+                                <h3>{activity.data.event}</h3>
+
+                                <p class="activity-location">
+                                  {activity.data.venue}
+                                </p>
+                              </div>
+
+                              <time
+                                class="activity-date"
+                                datetime={activity.data.date.toISOString()}
+                              >
+                                {formatDate(activity.data.date)}
+                              </time>
+                            </div>
+
+                            <p class="activity-description">
+                              {activity.data.description}
+                            </p>
+
+                            <p class="activity-meta">
+                              <span>
+                                {formatHours(activity.data.hours)}
+                                {" volunteer "}
+                                {activity.data.hours === 1
+                                  ? "hour"
+                                  : "hours"}
+                              </span>
+
+                              {
+                                activity.data.attendance !== undefined && (
+                                  <>
+                                    <span
+                                      class="separator"
+                                      aria-hidden="true"
+                                    >
+                                      ·
+                                    </span>
+
+                                    <span>
+                                      {activity.data.attendance.toLocaleString(
+                                        "en-US"
+                                      )}
+                                      {" attendees"}
+                                    </span>
+                                  </>
+                                )
+                              }
+                            </p>
+                          </article>
+                        ))}
+                      </div>
+                    </div>
+                  </details>
+                );
+              })}
+            </div>
+          ) : (
+            <p class="empty-state">
+              No outreach activities have been added yet.
+            </p>
+          )
+        }
+      </section>
+    </div>
+  </section>
 </PageLayout>
 
 <style>
+  .presentations,
+  .activities {
+    margin-top: 3rem;
+  }
 
-.presentations,
-.activities{
-    margin-top:3rem;
-}
+  .talk-grid {
+    display: grid;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
 
-.talk-grid{
-    display:grid;
-    gap:1.5rem;
-    margin-top:1.5rem;
-}
+  .section-heading {
+    margin-bottom: 1.5rem;
+  }
 
-table{
-    width:100%;
-    border-collapse:collapse;
-    margin-top:1.5rem;
-}
+  .activity-totals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.65rem;
+    margin: 0.75rem 0 0;
+    color: var(--text-muted);
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    font-style: italic;
+  }
 
-th,
-td{
-    padding:.75rem;
-    text-align:left;
-    border-bottom:1px solid var(--border-color);
-}
+  .separator {
+    margin-inline: 0.15rem;
+  }
 
-@media(min-width:800px){
+  .year-list {
+    display: grid;
+    gap: 1rem;
+  }
 
-.talk-grid{
-    grid-template-columns:repeat(2,1fr);
-}
+  .year-group {
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    border-radius: 0.75rem;
+    background-color: rgba(255, 255, 255, 0.148);
+  }
 
-}
+  .year-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.15rem 1.25rem;
+    cursor: pointer;
+    list-style: none;
+    transition: background-color 160ms ease;
+  }
 
+  .year-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .year-summary:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .year-summary:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -4px;
+  }
+
+  .year-heading {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.8rem;
+  }
+
+  .year {
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .year-count {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+
+  .year-icon {
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+
+  .year-icon::before,
+  .year-icon::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background-color: currentColor;
+    transform: translate(-50%, -50%);
+    transition: transform 160ms ease;
+  }
+
+  .year-icon::before {
+    width: 1rem;
+    height: 2px;
+  }
+
+  .year-icon::after {
+    width: 2px;
+    height: 1rem;
+  }
+
+  .year-group[open] > .year-summary .year-icon::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .year-content {
+    padding: 0 1.25rem 1.25rem;
+  }
+
+  .year-totals {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.65rem;
+    margin: 0;
+    padding: 0.9rem 0 1rem;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .activity-list {
+    display: grid;
+  }
+
+  .activity-item {
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .activity-item:first-child {
+    border-top: 0;
+  }
+
+  .activity-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .activity-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+
+  .activity-location {
+    margin: 0.3rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.92rem;
+  }
+
+  .activity-date {
+    flex-shrink: 0;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .activity-description {
+    max-width: 75ch;
+    margin: 0.85rem 0 0;
+    line-height: 1.65;
+  }
+
+  .activity-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.65rem;
+    margin: 0.75rem 0 0;
+    color: var(--text-muted);
+    font-size: 0.88rem;
+  }
+
+  .empty-state {
+    margin-top: 1.5rem;
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 800px) {
+    .talk-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 600px) {
+    .activity-totals {
+      line-height: 1.7;
+    }
+
+    .year-summary {
+      padding: 1rem;
+    }
+
+    .year-content {
+      padding: 0 1rem 1rem;
+    }
+
+    .activity-header {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .activity-date {
+      grid-row: 1;
+    }
+
+    .activity-header > div {
+      grid-row: 2;
+    }
+  }
+
+  @media print {
+    .year-group {
+      overflow: visible;
+      break-inside: avoid;
+    }
+
+    .year-group > .year-content {
+      display: block;
+    }
+
+    .year-icon {
+      display: none;
+    }
+  }
 </style>

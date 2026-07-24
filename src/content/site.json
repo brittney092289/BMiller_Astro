@@ -29,22 +29,22 @@
     "socialLinks": [
       {
         "label": "GitHub",
-        "href": "https://github.com/YOUR-USERNAME",
+        "href": "https://github.com/brittney092289",
         "icon": "github"
       },
       {
         "label": "LinkedIn",
-        "href": "https://www.linkedin.com/in/YOUR-USERNAME/",
+        "href": "https://www.linkedin.com/in/brittneyemiller/",
         "icon": "linkedin"
       },
       {
         "label": "Instagram",
-        "href": "https://www.instagram.com/YOUR-USERNAME/",
+        "href": "https://www.instagram.com/britt__miller/",
         "icon": "instagram"
       },
       {
         "label": "Email",
-        "href": "mailto:YOUR-EMAIL@example.com",
+        "href": "mailto:bmill125@asu.edu",
         "icon": "email"
       }
     ]
