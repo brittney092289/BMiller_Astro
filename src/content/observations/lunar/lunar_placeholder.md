@@ -2,7 +2,7 @@
 title: "Lunar Observation Placeholder"
 date: 2026-07-22
 category: "lunar"
-object: "Moon"
+object: "Mineral Moon"
 summary: "Placeholder entry for future lunar observations."
 cover: "../../../images/observations/categories/mineral_moon.jpg"
 ---

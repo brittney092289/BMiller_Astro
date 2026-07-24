@@ -35,37 +35,38 @@ const currentPath = Astro.url.pathname;
     <div id="stars3" aria-hidden="true"></div>
     <header class="site-header">
       <div class="header-container">
-        <a class="site-name" href="/">{site.name}</a>
-        <nav aria-label="Primary navigation">
-          <ul>
-            {
-              navigation.map(({ label, href }) => {
-                const isCurrent =
-                  href === "/"
-                    ? currentPath === "/"
-                    : currentPath.startsWith(href);
+      <a class="site-name" href="/">{site.name}</a>
 
-                return (
-                  <li>
-                    <a
-                      href={href}
-                      aria-current={isCurrent ? "page" : undefined}
-                    >
-                      {label}
-                    </a>
-                  </li>
-                );
-              })
-            }
-          </ul>
-        </nav>
+      <nav aria-label="Primary navigation">
+        <ul>
+          {
+            navigation.map(({ label, href }) => {
+              const isCurrent =
+                href === "/"
+                  ? currentPath === "/"
+                  : currentPath.startsWith(href);
+
+              return (
+                <li>
+                  <a
+                    href={href}
+                    aria-current={isCurrent ? "page" : undefined}
+                  >
+                    {label}
+                  </a>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </nav>
       </div>
     </header>
 
     <main class="page-content">
       <header class="page-heading">
+        <!-- <p class="eyebrow">{description}</p> -->
         <h1>{heading}</h1>
-        <p class="eyebrow">{description}</p>
       </header>
 
       <div class="content">
@@ -117,6 +118,7 @@ const currentPath = Astro.url.pathname;
     padding-block: 2rem;
   }
 
+
   .site-name {
     font-size: 1.05rem;
     font-weight: 700;
@@ -160,26 +162,22 @@ const currentPath = Astro.url.pathname;
   }
 
   .page-content {
-    width: min(100% - 3rem, 64rem);
-    margin-inline: auto;
-    padding-block: clamp(5rem, 10vw, 9rem);
+    width: min(100% - 2rem, 70rem);
+margin-inline: auto;
+padding-block: clamp(5rem, 10vw, 9rem);
+padding: 80px;
+background: rgb(25, 25, 25);
+margin: 40px auto;
+border-radius: 30px;
   }
 
   .page-heading {
-    margin-bottom: clamp(3rem, 7vw, 4rem);
-  }
-
-  .eyebrow {
-    margin: 1rem 0;
-    color: #3c75b9;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+    margin-bottom: clamp(1rem, 7vw, 1.2rem);
   }
 
   h1 {
     margin: 0;
-    font-size: clamp(2.5rem, 10vw, 4rem);
+    font-size: clamp(2rem, 10vw, 3rem);
     font-weight: 700;
     line-height: 0.88;
     letter-spacing: -0.06em;
@@ -242,6 +240,7 @@ const currentPath = Astro.url.pathname;
     color: rgba(255, 255, 255, 0.55);
     font-size: 0.8rem;
   }
+
 
   .footer-left p {
     margin: 0;
