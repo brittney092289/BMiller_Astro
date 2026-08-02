@@ -122,6 +122,16 @@ const {
     transform: scale(1.035);
   }
 
+  .overlay span {
+    transition: transform 400ms ease;
+    color: #ffffff85;
+  }
+
+  a:hover .overlay span {
+    transform: translate(3px, -3px);
+    color: #ffffff;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .category-image {
       transition: none;
